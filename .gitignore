@@ -1,0 +1,30 @@
+# Segredos e variáveis de ambiente (NUNCA versionar)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependências (podem ser reinstaladas a qualquer momento)
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Arquivos gerados pelo build
+dist/
+build/
+*.log
+
+# Configurações pessoais de editores
+.vscode/
+.idea/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Configurações locais do Claude Code
+.claude/settings.local.json
