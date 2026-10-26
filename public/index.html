@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Faz a página se ajustar à largura de celulares -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check-in de humor</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <main class="cartao">
+    <h1>Como você está hoje?</h1>
+    <p class="subtitulo">Sua resposta é anônima para o seu gestor.</p>
+
+    <form id="form-checkin">
+      <!-- Grupo de opções de humor: só é possível escolher uma -->
+      <fieldset class="emojis">
+        <legend class="so-leitor-de-tela">Escolha um emoji</legend>
+
+        <label class="emoji">
+          <input type="radio" name="humor" value="1">
+          <span class="emoji-icone" aria-hidden="true">😢</span>
+          <span class="emoji-texto">Muito mal</span>
+        </label>
+
+        <label class="emoji">
+          <input type="radio" name="humor" value="2">
+          <span class="emoji-icone" aria-hidden="true">😕</span>
+          <span class="emoji-texto">Mal</span>
+        </label>
+
+        <label class="emoji">
+          <input type="radio" name="humor" value="3">
+          <span class="emoji-icone" aria-hidden="true">😐</span>
+          <span class="emoji-texto">Neutro</span>
+        </label>
+
+        <label class="emoji">
+          <input type="radio" name="humor" value="4">
+          <span class="emoji-icone" aria-hidden="true">🙂</span>
+          <span class="emoji-texto">Bem</span>
+        </label>
+
+        <label class="emoji">
+          <input type="radio" name="humor" value="5">
+          <span class="emoji-icone" aria-hidden="true">😄</span>
+          <span class="emoji-texto">Muito bem</span>
+        </label>
+      </fieldset>
+
+      <!-- Comentário opcional, com no máximo 280 caracteres -->
+      <label for="comentario" class="rotulo">
+        Quer comentar algo? <span class="opcional">(opcional)</span>
+      </label>
+      <textarea id="comentario" name="comentario" rows="3" maxlength="280"
+                placeholder="Escreva aqui, se quiser"></textarea>
+
+      <button type="submit" class="botao">Enviar</button>
+    </form>
+  </main>
+</body>
+</html>

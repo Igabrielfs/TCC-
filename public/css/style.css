@@ -1,0 +1,174 @@
+/* ===== Cores usadas na página (mude aqui para trocar o tema todo) ===== */
+:root {
+  --cor-fundo: #f2f7ef;
+  --cor-cartao: #ffffff;
+  --cor-texto: #1f2a1c;
+  --cor-texto-suave: #5b6657;
+  --cor-principal: #33820d;
+  --cor-principal-escura: #276609;
+  --cor-borda: #d5dfd0;
+}
+
+/* Faz largura e altura incluírem a borda e o espaçamento interno */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  /* Centraliza o cartão na tela */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ===== Cartão branco no centro ===== */
+.cartao {
+  width: 100%;
+  max-width: 520px;
+  padding: 32px 24px;
+  background: var(--cor-cartao);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.6rem;
+}
+
+.subtitulo {
+  margin: 0 0 24px;
+  color: var(--cor-texto-suave);
+}
+
+/* ===== Linha de emojis ===== */
+.emojis {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  /* Sem isso, o fieldset não encolhe e passa da borda em telas pequenas */
+  min-width: 0;
+  margin: 0 0 24px;
+  padding: 0;
+  border: none;
+}
+
+.emoji {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 10px 4px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+}
+
+.emoji:hover {
+  background: var(--cor-fundo);
+  transform: scale(1.05);
+}
+
+/* Esconde a bolinha padrão do botão de opção, mas mantém ele utilizável pelo teclado */
+.emoji input {
+  position: absolute;
+  opacity: 0;
+}
+
+.emoji-icone {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+.emoji-texto {
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+}
+
+/* Emoji escolhido fica destacado */
+.emoji:has(input:checked) {
+  background: var(--cor-fundo);
+  border-color: var(--cor-principal);
+}
+
+/* Contorno visível quando a pessoa navega pelo teclado (tecla Tab) */
+.emoji:has(input:focus-visible) {
+  outline: 3px solid var(--cor-principal);
+  outline-offset: 2px;
+}
+
+/* ===== Comentário ===== */
+.rotulo {
+  display: block;
+  margin-bottom: 8px;
+  text-align: left;
+  font-weight: 600;
+}
+
+.opcional {
+  font-weight: 400;
+  color: var(--cor-texto-suave);
+}
+
+textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--cor-borda);
+  border-radius: 8px;
+  font: inherit;
+  resize: vertical;
+}
+
+textarea:focus {
+  outline: 2px solid var(--cor-principal);
+  border-color: transparent;
+}
+
+/* ===== Botão Enviar ===== */
+.botao {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--cor-principal);
+  color: #ffffff;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.botao:hover {
+  background: var(--cor-principal-escura);
+}
+
+/* Texto que só leitores de tela (usados por pessoas cegas) leem */
+.so-leitor-de-tela {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ===== Telas pequenas (celular) ===== */
+@media (max-width: 400px) {
+  .emoji-icone {
+    font-size: 2rem;
+  }
+
+  .emoji-texto {
+    font-size: 0.7rem;
+  }
+}
