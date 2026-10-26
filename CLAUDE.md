@@ -13,3 +13,4 @@ Siga as regras abaixo em todo o trabalho neste repositório:
 
 - Versionamento: @VERSIONAMENTO.md
 - Segurança: @SEGURANCA.md
+- Planejamento: @PLANO.md
