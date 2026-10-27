@@ -10,9 +10,11 @@
   },
   "scripts": {
     "start": "node --env-file-if-exists=.env servidor/index.js",
+    "criar-usuario": "node --env-file-if-exists=.env servidor/criar-usuario.js",
     "test": "node --test --test-concurrency=1 \"testes/**/*.test.js\""
   },
   "dependencies": {
+    "bcryptjs": "3.0.3",
     "express": "5.3.0",
     "helmet": "8.3.0"
   }

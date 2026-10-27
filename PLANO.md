@@ -48,13 +48,17 @@ Este é o planejamento da plataforma de bem-estar. Ainda **não tem código**: a
 O `localStorage` é um "caderninho" que o próprio navegador oferece. Ele guarda dados **só naquele computador**. É ótimo para aprender e testar as telas sem precisar de servidor, mas **não serve para o sistema real**, porque o gestor não consegue ver os dados de outros computadores.
 
 ### Fase real (etapa 4 em diante): banco de dados no servidor
-Usaremos um banco **SQLite**, que é um banco de dados simples guardado em um único arquivo. Exemplo de tabelas:
+Usaremos um banco **SQLite**, que é um banco de dados simples guardado em um único arquivo. As tabelas (criadas em `servidor/banco.js`):
 
 | Tabela | O que guarda |
 |--------|--------------|
 | `usuarios` | id, nome, e-mail, senha (com **hash**, veja o `SEGURANCA.md`), tipo (funcionário ou gestor), equipe |
-| `equipes` | id, nome, id do gestor |
-| `checkins` | id, id do usuário, equipe, data, humor (1 a 5), comentário |
+| `equipes` | id, nome (o gestor de uma equipe é o usuário do tipo "gestor" daquela equipe) |
+| `sessoes` | hash do código de login, id do usuário, data em que o login expira |
+| `participacoes` | id do usuário e data: só registra **que** a pessoa fez o check-in naquele dia |
+| `checkins` | id aleatório, equipe, data, humor (1 a 5), comentário: **sem o id do usuário** |
+
+> **Por que separar `participacoes` de `checkins`?** A ideia inicial era guardar o id do usuário junto com o humor. Separando, o sistema continua sabendo quem já respondeu hoje (para não deixar responder duas vezes e para calcular a participação), mas a resposta em si não fica ligada à pessoa. Assim, a frase "Sua resposta é anônima" é verdade até para quem abrir o banco de dados. Atenção: num dia em que só uma pessoa da equipe respondeu, ainda dá para deduzir de quem é a resposta olhando o banco direto. Por isso o acesso ao arquivo do banco deve ser restrito.
 
 Cuidados de privacidade (LGPD):
 - O **servidor** calcula as médias e entrega ao painel **só o resultado**. As respostas individuais nunca são enviadas para o navegador do gestor.
@@ -75,7 +79,7 @@ As etapas concluídas estão marcadas com ✅.
    *Você aprende:* guardar e ler dados com JavaScript.
 4. ✅ **Servidor e banco de dados.** Criar o servidor Node.js com SQLite. A tela de check-in passa a enviar os dados para o servidor, que **valida tudo de novo** (regras 1 e 2 do `SEGURANCA.md`).
    *Você aprende:* como o navegador conversa com o servidor (requisições HTTP).
-5. **Login.** Cadastro de usuários com senha protegida por hash, login e separação entre funcionário e gestor.
+5. ✅ **Login.** Cadastro de usuários com senha protegida por hash, login e separação entre funcionário e gestor.
    *Você aprende:* autenticação e sessões.
 6. **Painel do gestor.** O servidor calcula as médias da equipe (com o mínimo de 5 respostas) e o painel mostra os números e o gráfico.
    *Você aprende:* consultas com agregação (`AVG`, `COUNT`) e gráficos.

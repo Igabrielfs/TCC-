@@ -61,34 +61,28 @@ function mostrarAgradecimento() {
   agradecimento.querySelector("h2").focus();
 }
 
-// ===== Lembrar no navegador que o check-in de hoje já foi feito =====
-// Guardamos só a data (e nunca o humor ou o comentário) para não deixar
-// respostas pessoais no computador.
+// ===== Perguntar ao servidor se o check-in de hoje já foi feito =====
+// Quem decide é o servidor, que sabe quem está logado. Assim funciona
+// mesmo se várias pessoas usarem o mesmo computador.
 
-const CHAVE_ULTIMO_CHECKIN = "ultimoCheckin";
-
-// Data de hoje no formato AAAA-MM-DD, usando o fuso horário do computador
-function dataDeHoje() {
-  const agora = new Date();
-  const mes = String(agora.getMonth() + 1).padStart(2, "0");
-  const dia = String(agora.getDate()).padStart(2, "0");
-  return agora.getFullYear() + "-" + mes + "-" + dia;
+// Se a sessão acabou, volta para a tela de login
+function irParaLogin() {
+  window.location.href = "/login.html";
 }
 
-function jaFezCheckinHoje() {
+async function conferirCheckinDeHoje() {
   try {
-    return localStorage.getItem(CHAVE_ULTIMO_CHECKIN) === dataDeHoje();
+    const resposta = await fetch("/api/checkins/hoje");
+    if (resposta.status === 401) {
+      irParaLogin();
+      return;
+    }
+    const dados = await resposta.json();
+    if (dados.feito) {
+      mostrarJaFeito();
+    }
   } catch (erro) {
-    // Se o navegador bloquear o localStorage, deixamos o servidor decidir
-    return false;
-  }
-}
-
-function lembrarCheckinDeHoje() {
-  try {
-    localStorage.setItem(CHAVE_ULTIMO_CHECKIN, dataDeHoje());
-  } catch (erro) {
-    // Sem problema: é só uma comodidade
+    // Sem conexão: deixa o formulário aberto; o servidor confere de novo no envio
   }
 }
 
@@ -126,15 +120,19 @@ async function enviarCheckin(evento) {
     });
 
     if (resposta.ok) {
-      lembrarCheckinDeHoje();
       mostrarAgradecimento();
       return;
     }
 
     // 409 = o servidor diz que o check-in de hoje já foi feito
     if (resposta.status === 409) {
-      lembrarCheckinDeHoje();
       mostrarJaFeito();
+      return;
+    }
+
+    // 401 = a sessão acabou
+    if (resposta.status === 401) {
+      irParaLogin();
       return;
     }
 
@@ -152,9 +150,7 @@ async function enviarCheckin(evento) {
 }
 
 // Ao abrir a página, se o check-in de hoje já foi feito, não mostra o formulário
-if (jaFezCheckinHoje()) {
-  mostrarJaFeito();
-}
+conferirCheckinDeHoje();
 
 // Liga cada ação ao evento certo
 opcoesHumor.forEach(function (opcao) {

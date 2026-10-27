@@ -353,6 +353,44 @@ h2:focus {
   font-weight: 700;
 }
 
+/* ===== Campos de texto de uma linha (login) ===== */
+.formulario .rotulo {
+  margin-top: 20px;
+}
+
+.formulario .rotulo:first-child {
+  margin-top: 0;
+}
+
+.campo {
+  width: 100%;
+  padding: 14px 16px;
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+  background: #fbfdfa;
+  color: var(--cor-texto);
+  font: inherit;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.campo:focus {
+  outline: none;
+  border-color: var(--cor-principal);
+  background: var(--cor-cartao);
+}
+
+/* Botão "Sair": discreto, com cara de link */
+.link-sair {
+  margin-top: 28px;
+  padding: 4px 8px;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .emergencia {
   margin: 0 0 24px;
   color: var(--cor-texto-suave);
