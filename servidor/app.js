@@ -7,8 +7,11 @@ const helmet = require("helmet");
 const { validarCheckin, validarLogin } = require("./validacao");
 const { hoje } = require("./datas");
 const autenticacao = require("./autenticacao");
+const { indicadoresDaEquipe } = require("./painel");
 
 const PASTA_PUBLICA = path.join(__dirname, "..", "public");
+// Biblioteca de gráficos, entregue pelo próprio servidor (sem depender de sites de terceiros)
+const ARQUIVO_CHART_JS = path.join(__dirname, "..", "node_modules", "chart.js", "dist", "chart.umd.min.js");
 
 // Página inicial de cada tipo de usuário
 const PAGINA_INICIAL = {
@@ -67,6 +70,9 @@ function criarApp({ banco, producao = false }) {
 
   // Entrega os arquivos da pasta public/ (HTML, CSS e JavaScript)
   app.use(express.static(PASTA_PUBLICA));
+  app.get("/vendor/chart.umd.min.js", function (req, res) {
+    res.sendFile(ARQUIVO_CHART_JS);
+  });
 
   // ----- Login -----
   app.post("/api/login", async function (req, res) {
@@ -149,6 +155,12 @@ function criarApp({ banco, producao = false }) {
     }
 
     res.status(201).json({ mensagem: "Check-in registrado." });
+  });
+
+  // ----- Painel do gestor -----
+  // Devolve só números da equipe do gestor logado, nunca respostas individuais
+  app.get("/api/painel", autenticacao.exigirTipo("gestor"), function (req, res) {
+    res.json(indicadoresDaEquipe(banco, req.usuario.equipe_id, hoje()));
   });
 
   // Qualquer outro endereço da API que não existe

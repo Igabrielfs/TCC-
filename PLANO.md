@@ -81,7 +81,7 @@ As etapas concluídas estão marcadas com ✅.
    *Você aprende:* como o navegador conversa com o servidor (requisições HTTP).
 5. ✅ **Login.** Cadastro de usuários com senha protegida por hash, login e separação entre funcionário e gestor.
    *Você aprende:* autenticação e sessões.
-6. **Painel do gestor.** O servidor calcula as médias da equipe (com o mínimo de 5 respostas) e o painel mostra os números e o gráfico.
+6. ✅ **Painel do gestor.** O servidor calcula as médias da equipe (com o mínimo de 5 respostas) e o painel mostra os números e o gráfico.
    *Você aprende:* consultas com agregação (`AVG`, `COUNT`) e gráficos.
 7. **Abrir ao ligar o computador.** Fazer a página abrir sozinha quando o funcionário liga o computador (ex.: um atalho na pasta "Inicializar" do Windows ou configurar a página como página inicial do navegador, com ajuda da TI).
 8. **Acabamento.** Visual para celular, acessibilidade (contraste, uso pelo teclado), aviso de privacidade e testes com usuários reais.
