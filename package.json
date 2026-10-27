@@ -12,6 +12,7 @@
     "start": "node --env-file-if-exists=.env servidor/index.js",
     "criar-usuario": "node --env-file-if-exists=.env servidor/criar-usuario.js",
     "demo": "node --env-file-if-exists=.env servidor/demo.js",
+    "atalho": "node ferramentas/atalho-inicializar.js",
     "test": "node --test --test-concurrency=1 \"testes/**/*.test.js\""
   },
   "dependencies": {
