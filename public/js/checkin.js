@@ -92,6 +92,40 @@ function mostrarJaFeito() {
   document.getElementById("ja-feito").hidden = false;
 }
 
+// ===== Aviso de privacidade (só no primeiro uso) =====
+
+const avisoPrivacidade = document.getElementById("aviso-privacidade");
+const telaCheckin = document.getElementById("tela-checkin");
+
+async function conferirAvisoDePrivacidade() {
+  try {
+    const resposta = await fetch("/api/eu");
+    if (resposta.status === 401) {
+      irParaLogin();
+      return;
+    }
+    const dados = await resposta.json();
+    if (!dados.avisoPrivacidadeVisto) {
+      telaCheckin.hidden = true;
+      avisoPrivacidade.hidden = false;
+      avisoPrivacidade.querySelector("h1").focus();
+    }
+  } catch (erro) {
+    // Sem conexão: segue para o check-in; o aviso aparece numa próxima vez
+  }
+}
+
+async function fecharAvisoDePrivacidade() {
+  try {
+    await fetch("/api/aviso-privacidade", { method: "POST" });
+  } catch (erro) {
+    // Se falhar, o aviso só aparece de novo na próxima vez
+  }
+  avisoPrivacidade.hidden = true;
+  telaCheckin.hidden = false;
+  opcoesHumor[0].focus();
+}
+
 // ===== Enviar para o servidor =====
 
 async function enviarCheckin(evento) {
@@ -149,8 +183,11 @@ async function enviarCheckin(evento) {
   }
 }
 
-// Ao abrir a página, se o check-in de hoje já foi feito, não mostra o formulário
+// Ao abrir a página: mostra o aviso de privacidade (se for o primeiro uso)
+// e, se o check-in de hoje já foi feito, não mostra o formulário
+conferirAvisoDePrivacidade();
 conferirCheckinDeHoje();
+document.getElementById("entendi").addEventListener("click", fecharAvisoDePrivacidade);
 
 // Liga cada ação ao evento certo
 opcoesHumor.forEach(function (opcao) {

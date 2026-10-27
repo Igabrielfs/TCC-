@@ -17,7 +17,17 @@ function abrirBanco(arquivo) {
   banco.exec("PRAGMA foreign_keys = ON");
 
   criarTabelas(banco);
+  atualizarTabelas(banco);
   return banco;
+}
+
+// Acrescenta colunas novas em bancos criados por versões anteriores do sistema
+function atualizarTabelas(banco) {
+  const colunas = banco.prepare("PRAGMA table_info(usuarios)").all().map((c) => c.name);
+  if (!colunas.includes("aviso_visto_em")) {
+    // Data em que o funcionário leu o aviso de privacidade (vazio = ainda não leu)
+    banco.exec("ALTER TABLE usuarios ADD COLUMN aviso_visto_em TEXT");
+  }
 }
 
 function criarTabelas(banco) {

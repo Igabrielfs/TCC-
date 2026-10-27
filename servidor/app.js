@@ -10,8 +10,11 @@ const autenticacao = require("./autenticacao");
 const { indicadoresDaEquipe } = require("./painel");
 
 const PASTA_PUBLICA = path.join(__dirname, "..", "public");
-// Biblioteca de gráficos, entregue pelo próprio servidor (sem depender de sites de terceiros)
-const ARQUIVO_CHART_JS = path.join(__dirname, "..", "node_modules", "chart.js", "dist", "chart.umd.min.js");
+// Biblioteca de gráficos e fonte, entregues pelo próprio servidor. Assim o navegador
+// do funcionário não se conecta a sites de terceiros (que receberiam o endereço IP dele).
+const PASTA_MODULOS = path.join(__dirname, "..", "node_modules");
+const ARQUIVO_CHART_JS = path.join(PASTA_MODULOS, "chart.js", "dist", "chart.umd.min.js");
+const PASTA_FONTES = path.join(PASTA_MODULOS, "@fontsource", "nunito", "files");
 
 // Página inicial de cada tipo de usuário
 const PAGINA_INICIAL = {
@@ -26,17 +29,8 @@ function criarApp({ banco, producao = false }) {
   // Não conta para quem acessa qual tecnologia o servidor usa
   app.disable("x-powered-by");
 
-  // Cabeçalhos de segurança (ex.: só permite scripts e estilos do próprio site)
-  app.use(
-    helmet({
-      contentSecurityPolicy: {
-        directives: {
-          "style-src": ["'self'", "https://fonts.googleapis.com"],
-          "font-src": ["'self'", "https://fonts.gstatic.com"],
-        },
-      },
-    })
-  );
+  // Cabeçalhos de segurança (ex.: só permite scripts, estilos e fontes do próprio site)
+  app.use(helmet());
 
   // Lê corpos em JSON de até 10 KB (um check-in tem bem menos que isso)
   app.use(express.json({ limit: "10kb" }));
@@ -73,6 +67,7 @@ function criarApp({ banco, producao = false }) {
   app.get("/vendor/chart.umd.min.js", function (req, res) {
     res.sendFile(ARQUIVO_CHART_JS);
   });
+  app.use("/vendor/fontes", express.static(PASTA_FONTES));
 
   // ----- Login -----
   app.post("/api/login", async function (req, res) {
@@ -107,11 +102,23 @@ function criarApp({ banco, producao = false }) {
     if (!req.usuario) {
       return res.status(401).json({ erro: "Faça login para continuar." });
     }
-    res.json({ nome: req.usuario.nome, tipo: req.usuario.tipo });
+    res.json({
+      nome: req.usuario.nome,
+      tipo: req.usuario.tipo,
+      avisoPrivacidadeVisto: Boolean(req.usuario.aviso_visto_em),
+    });
   });
 
   // ----- Check-in -----
   const funcionario = autenticacao.exigirTipo("funcionario");
+
+  // Registra que o funcionário leu o aviso de privacidade (mostrado no primeiro uso)
+  app.post("/api/aviso-privacidade", funcionario, function (req, res) {
+    banco
+      .prepare("UPDATE usuarios SET aviso_visto_em = ? WHERE id = ? AND aviso_visto_em IS NULL")
+      .run(new Date().toISOString(), req.usuario.id);
+    res.json({ mensagem: "Obrigado!" });
+  });
 
   // Diz se o funcionário logado já fez o check-in hoje
   app.get("/api/checkins/hoje", funcionario, function (req, res) {

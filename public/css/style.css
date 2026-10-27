@@ -1,3 +1,33 @@
+/* ===== Fonte Nunito, entregue pelo nosso próprio servidor =====
+   (antes vinha do Google Fonts; assim nenhum dado do funcionário vai para terceiros) */
+@font-face {
+  font-family: "Nunito";
+  font-weight: 400;
+  font-display: swap;
+  src: url("/vendor/fontes/nunito-latin-400-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Nunito";
+  font-weight: 600;
+  font-display: swap;
+  src: url("/vendor/fontes/nunito-latin-600-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Nunito";
+  font-weight: 700;
+  font-display: swap;
+  src: url("/vendor/fontes/nunito-latin-700-normal.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Nunito";
+  font-weight: 800;
+  font-display: swap;
+  src: url("/vendor/fontes/nunito-latin-800-normal.woff2") format("woff2");
+}
+
 /* ===== Cores, tamanhos e fonte da página (mude aqui para trocar o tema todo) ===== */
 :root {
   /* Tons de verde suaves */
@@ -10,6 +40,10 @@
   --cor-principal-escura: #2f6240;
   --cor-destaque: #e4f1e1;
   --cor-borda: #d3e3cf;
+  /* Borda dos campos de texto e texto de exemplo: escuros o bastante para
+     serem vistos por quem enxerga pouco (contraste mínimo da WCAG) */
+  --cor-borda-campo: #7a9180;
+  --cor-placeholder: #66776a;
   /* Avisos: um terracota suave, que chama atenção sem assustar */
   --cor-alerta: #9a4a2c;
   --cor-alerta-fundo: #fbefe8;
@@ -175,7 +209,7 @@ h1 {
 textarea {
   width: 100%;
   padding: 16px;
-  border: 2px solid var(--cor-borda);
+  border: 2px solid var(--cor-borda-campo);
   border-radius: var(--raio-medio);
   background: #fbfdfa;
   color: var(--cor-texto);
@@ -185,7 +219,7 @@ textarea {
 }
 
 textarea::placeholder {
-  color: #8a998d;
+  color: var(--cor-placeholder);
 }
 
 textarea:focus {
@@ -367,7 +401,7 @@ h2:focus {
 .campo {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid var(--cor-borda);
+  border: 2px solid var(--cor-borda-campo);
   border-radius: var(--raio-medio);
   background: #fbfdfa;
   color: var(--cor-texto);
@@ -501,6 +535,45 @@ h2:focus {
   text-align: left;
 }
 
+/* ===== Aviso de privacidade ===== */
+.aviso-privacidade ul,
+.texto-longo ul {
+  margin: 0 0 24px;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.aviso-privacidade li,
+.texto-longo li {
+  margin-bottom: 12px;
+}
+
+.aviso-privacidade h1:focus {
+  outline: none;
+}
+
+/* Página com bastante texto (aviso completo): alinhado à esquerda para ler melhor */
+.texto-longo {
+  text-align: left;
+}
+
+.texto-longo h1,
+.texto-longo .subtitulo,
+.texto-longo .agradecimento-icone {
+  text-align: center;
+}
+
+.texto-longo h2 {
+  margin-top: 28px;
+  font-size: 1.15rem;
+}
+
+/* Link no rodapé das telas: "Como cuidamos dos seus dados" */
+.rodape {
+  margin: 20px 0 0;
+  font-size: 0.9rem;
+}
+
 /* Texto que só leitores de tela (usados por pessoas cegas) leem */
 .so-leitor-de-tela {
   position: absolute;
@@ -563,5 +636,43 @@ h2:focus {
 
   .emoji-texto {
     font-size: 0.72rem;
+  }
+}
+
+/* ===== Celulares bem estreitos (ex.: 320px de largura) ===== */
+@media (max-width: 360px) {
+  body {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .cartao {
+    padding: 28px 12px;
+  }
+
+  .botao-ajuda {
+    top: 12px;
+    right: 8px;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+  }
+
+  .emojis {
+    gap: 2px;
+  }
+
+  .emoji {
+    /* Deixa cada emoji encolher abaixo do tamanho do texto, para os 5 caberem */
+    min-width: 0;
+    padding: 8px 0;
+  }
+
+  .emoji-icone {
+    font-size: 2rem;
+  }
+
+  .emoji-texto {
+    font-size: 0.68rem;
+    overflow-wrap: anywhere;
   }
 }

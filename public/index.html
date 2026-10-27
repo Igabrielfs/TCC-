@@ -5,10 +5,6 @@
   <!-- Faz a página se ajustar à largura de celulares -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Check-in de humor</title>
-  <!-- Fonte Nunito (Google Fonts): moderna, arredondada e fácil de ler -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -18,8 +14,23 @@
   </a>
 
   <main class="cartao">
+    <!-- Aviso de privacidade: aparece só no primeiro uso, antes do check-in -->
+    <section id="aviso-privacidade" class="aviso-privacidade" hidden>
+      <p class="agradecimento-icone" aria-hidden="true">🔒</p>
+      <h1 tabindex="-1">Antes de começar</h1>
+      <ul>
+        <li>Todo dia você pode contar como está, escolhendo um emoji. <strong>É opcional.</strong></li>
+        <li>Sua resposta é guardada <strong>sem o seu nome</strong>.</li>
+        <li>Seu gestor vê <strong>só a média da equipe</strong>, e só quando pelo menos 5 pessoas responderam. Ele nunca vê a sua resposta nem o seu comentário.</li>
+        <li>As respostas são apagadas depois de 1 ano.</li>
+      </ul>
+      <p><a class="link" href="privacidade.html">Ler o aviso de privacidade completo</a></p>
+      <button type="button" id="entendi" class="botao">Entendi</button>
+    </section>
+
+    <div id="tela-checkin">
     <h1>Como você está hoje?</h1>
-    <p class="subtitulo">Sua resposta é anônima.</p>
+    <p class="subtitulo">Sua resposta é anônima. <a class="link" href="privacidade.html">Saiba mais</a></p>
 
     <!-- "novalidate": quem valida é o nosso JavaScript, com mensagens em português -->
     <form id="form-checkin" novalidate>
@@ -90,6 +101,7 @@
       <h2>Você já fez o check-in hoje</h2>
       <p class="subtitulo">Obrigado! Volte amanhã para contar como está.</p>
     </section>
+    </div>
 
     <button type="button" id="sair" class="link link-sair">Sair</button>
   </main>
