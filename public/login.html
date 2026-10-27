@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Faz a página se ajustar à largura de celulares -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar</title>
+  <!-- Fonte Nunito (Google Fonts): moderna, arredondada e fácil de ler -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- A ajuda fica disponível mesmo sem login -->
+  <a href="ajuda.html" class="botao-ajuda">
+    <span aria-hidden="true">🤝</span> Preciso de ajuda
+  </a>
+
+  <main class="cartao">
+    <p class="agradecimento-icone" aria-hidden="true">🌿</p>
+    <h1>Bem-vindo(a)!</h1>
+    <p class="subtitulo">Entre com seu e-mail e senha.</p>
+
+    <form id="form-login" class="formulario" novalidate>
+      <label for="email" class="rotulo">E-mail</label>
+      <input id="email" name="email" type="email" class="campo"
+             autocomplete="username" maxlength="254" required>
+
+      <label for="senha" class="rotulo">Senha</label>
+      <input id="senha" name="senha" type="password" class="campo"
+             autocomplete="current-password" maxlength="72" required>
+
+      <p id="erro-login" class="mensagem-erro mensagem-erro-envio" role="alert" hidden></p>
+
+      <button type="submit" class="botao">Entrar</button>
+    </form>
+  </main>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
