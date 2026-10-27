@@ -65,8 +65,9 @@ Cuidados de privacidade (LGPD):
 ## 4. Etapas de construção (da mais simples para a mais complexa)
 
 Cada etapa termina com algo **funcionando** e com um commit, conforme o `VERSIONAMENTO.md`.
+As etapas concluídas estão marcadas com ✅.
 
-1. **Tela de check-in (só visual).** Criar o HTML e o CSS com os 5 emojis, o campo de comentário e o botão. Ainda não salva nada.
+1. ✅ **Tela de check-in (só visual).** Criar o HTML e o CSS com os 5 emojis, o campo de comentário e o botão. Ainda não salva nada.
    *Você aprende:* estrutura HTML e estilos CSS.
 2. **Check-in interativo.** Com JavaScript: destacar o emoji clicado, impedir o envio sem emoji, limitar o tamanho do comentário e mostrar a mensagem de agradecimento.
    *Você aprende:* eventos de clique e validação de entrada.
