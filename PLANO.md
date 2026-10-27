@@ -84,9 +84,12 @@ As etapas concluídas estão marcadas com ✅.
 6. ✅ **Painel do gestor.** O servidor calcula as médias da equipe (com o mínimo de 5 respostas) e o painel mostra os números e o gráfico.
    *Você aprende:* consultas com agregação (`AVG`, `COUNT`) e gráficos.
 7. ✅ **Abrir ao ligar o computador.** Fazer a página abrir sozinha quando o funcionário liga o computador (ex.: um atalho na pasta "Inicializar" do Windows ou configurar a página como página inicial do navegador, com ajuda da TI).
-8. **Acabamento.** Visual para celular, acessibilidade (contraste, uso pelo teclado), aviso de privacidade e testes com usuários reais.
+8. ✅ **Acabamento.** Visual para celular, acessibilidade (contraste, uso pelo teclado), aviso de privacidade e testes com usuários reais.
+   > **Falta:** aplicar os testes com usuários reais. O roteiro está pronto em `docs/roteiro-testes-usuarios.md`, mas depende de pessoas do Sicredi.
 
-## 5. Estrutura de pastas prevista
+## 5. Estrutura de pastas
+
+A estrutura completa, com o que cada arquivo faz, está no `README.md`.
 
 ```
 TCC/
@@ -95,9 +98,13 @@ TCC/
 │   ├── ajuda.html
 │   ├── login.html
 │   ├── painel.html  ← painel do gestor
+│   ├── privacidade.html
 │   ├── css/
 │   └── js/
-└── servidor/        ← código Node.js e banco SQLite (a partir da etapa 4)
+├── servidor/        ← código Node.js e banco SQLite (a partir da etapa 4)
+├── testes/          ← testes automáticos (npm test)
+├── ferramentas/     ← atalho para abrir ao ligar o computador
+└── docs/            ← guias
 ```
 
 ## 6. Dúvidas em aberto
@@ -105,5 +112,8 @@ TCC/
 Estas decisões precisam ser tomadas com o orientador ou com o Sicredi:
 - **Quem recebe o pedido de ajuda?** O RH, um psicólogo ou um canal externo? O pedido deve ser anônimo ou identificado?
 - **Como o funcionário vai fazer login?** Com um usuário e senha próprios do sistema ou com o login que ele já usa na empresa?
-- **Por quanto tempo os check-ins ficam guardados?**
+- **Por quanto tempo os check-ins ficam guardados?** (Por enquanto: 365 dias, configurável em `RETENCAO_DIAS`. Se mudar, atualize o texto do aviso de privacidade.)
 - **O mínimo de 5 respostas para mostrar a média está bom?**
+- **Para que servem os comentários?** Hoje eles são guardados sem identificação e ninguém os vê pelo sistema. Pela LGPD (minimização), é preciso definir quem pode lê-los e para quê, ou deixar de coletá-los.
+- **Quais são os contatos internos de apoio** (apoio psicológico e RH) e o **contato do encarregado de dados (DPO)**? Hoje aparecem como "a definir" nas telas de ajuda e de privacidade.
+- **Os períodos do painel estão bons?** O painel mostra a última semana e o último mês **completos**, para evitar que o gestor descubra respostas comparando os números de um dia para o outro.
