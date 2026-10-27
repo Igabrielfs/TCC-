@@ -1,14 +1,16 @@
 // ===== Tela de check-in de humor =====
 
-// Limite de caracteres do comentário (o mesmo do "maxlength" no HTML)
+// Limite de caracteres do comentário (o mesmo do "maxlength" no HTML e do servidor)
 const LIMITE_COMENTARIO = 280;
 
 // Pega os elementos da página que vamos usar
 const formulario = document.getElementById("form-checkin");
 const opcoesHumor = document.querySelectorAll('input[name="humor"]');
 const erroHumor = document.getElementById("erro-humor");
+const erroEnvio = document.getElementById("erro-envio");
 const campoComentario = document.getElementById("comentario");
 const contador = document.getElementById("contador");
+const botaoEnviar = formulario.querySelector('button[type="submit"]');
 const agradecimento = document.getElementById("agradecimento");
 
 // Destaca o emoji clicado: tira o destaque de todos e coloca só no escolhido
@@ -16,17 +18,17 @@ function destacarEmojiEscolhido() {
   opcoesHumor.forEach(function (opcao) {
     opcao.closest(".emoji").classList.toggle("selecionado", opcao.checked);
   });
-  esconderErro();
+  esconder(erroHumor);
 }
 
-function mostrarErro(texto) {
+function mostrarErro(elemento, texto) {
   // textContent (e não innerHTML) garante que o texto é mostrado como texto, nunca como código
-  erroHumor.textContent = texto;
-  erroHumor.hidden = false;
+  elemento.textContent = texto;
+  elemento.hidden = false;
 }
 
-function esconderErro() {
-  erroHumor.hidden = true;
+function esconder(elemento) {
+  elemento.hidden = true;
 }
 
 // Atualiza o "X de 280 caracteres" enquanto a pessoa digita
@@ -59,9 +61,11 @@ function mostrarAgradecimento() {
   agradecimento.querySelector("h2").focus();
 }
 
-// ===== Guardar no navegador (localStorage) =====
+// ===== Lembrar no navegador que o check-in de hoje já foi feito =====
+// Guardamos só a data (e nunca o humor ou o comentário) para não deixar
+// respostas pessoais no computador.
 
-const CHAVE_CHECKINS = "checkins";
+const CHAVE_ULTIMO_CHECKIN = "ultimoCheckin";
 
 // Data de hoje no formato AAAA-MM-DD, usando o fuso horário do computador
 function dataDeHoje() {
@@ -71,32 +75,21 @@ function dataDeHoje() {
   return agora.getFullYear() + "-" + mes + "-" + dia;
 }
 
-// Lê a lista de check-ins guardada. Se não houver nada (ou os dados estiverem
-// estragados, ou o navegador bloquear o localStorage), devolve uma lista vazia.
-function lerCheckins() {
-  try {
-    const lista = JSON.parse(localStorage.getItem(CHAVE_CHECKINS));
-    return Array.isArray(lista) ? lista : [];
-  } catch (erro) {
-    return [];
-  }
-}
-
-function guardarCheckin(checkin) {
-  const lista = lerCheckins();
-  lista.push(checkin);
-  try {
-    localStorage.setItem(CHAVE_CHECKINS, JSON.stringify(lista));
-  } catch (erro) {
-    console.error("Não foi possível guardar o check-in:", erro);
-  }
-}
-
 function jaFezCheckinHoje() {
-  const hoje = dataDeHoje();
-  return lerCheckins().some(function (checkin) {
-    return checkin.data === hoje;
-  });
+  try {
+    return localStorage.getItem(CHAVE_ULTIMO_CHECKIN) === dataDeHoje();
+  } catch (erro) {
+    // Se o navegador bloquear o localStorage, deixamos o servidor decidir
+    return false;
+  }
+}
+
+function lembrarCheckinDeHoje() {
+  try {
+    localStorage.setItem(CHAVE_ULTIMO_CHECKIN, dataDeHoje());
+  } catch (erro) {
+    // Sem problema: é só uma comodidade
+  }
 }
 
 // Mostra o aviso de que o check-in de hoje já foi feito, no lugar do formulário
@@ -105,27 +98,57 @@ function mostrarJaFeito() {
   document.getElementById("ja-feito").hidden = false;
 }
 
-function enviarCheckin(evento) {
+// ===== Enviar para o servidor =====
+
+async function enviarCheckin(evento) {
   // Impede o navegador de recarregar a página ao enviar o formulário
   evento.preventDefault();
+  esconder(erroEnvio);
 
   const humor = humorEscolhido();
   if (humor === null) {
-    mostrarErro("Escolha um emoji para contar como você está.");
+    mostrarErro(erroHumor, "Escolha um emoji para contar como você está.");
     opcoesHumor[0].focus();
-    return;
-  }
-
-  // Confere de novo: a pessoa pode ter feito o check-in em outra aba
-  if (jaFezCheckinHoje()) {
-    mostrarJaFeito();
     return;
   }
 
   const comentario = campoComentario.value.trim().slice(0, LIMITE_COMENTARIO);
 
-  guardarCheckin({ data: dataDeHoje(), humor: humor, comentario: comentario });
-  mostrarAgradecimento();
+  // Desliga o botão enquanto envia, para não mandar duas vezes
+  botaoEnviar.disabled = true;
+  botaoEnviar.textContent = "Enviando...";
+
+  try {
+    const resposta = await fetch("/api/checkins", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ humor: humor, comentario: comentario }),
+    });
+
+    if (resposta.ok) {
+      lembrarCheckinDeHoje();
+      mostrarAgradecimento();
+      return;
+    }
+
+    // 409 = o servidor diz que o check-in de hoje já foi feito
+    if (resposta.status === 409) {
+      lembrarCheckinDeHoje();
+      mostrarJaFeito();
+      return;
+    }
+
+    const dados = await resposta.json().catch(function () {
+      return {};
+    });
+    mostrarErro(erroEnvio, dados.erro || "Não foi possível enviar. Tente novamente.");
+  } catch (erro) {
+    // Sem internet ou servidor desligado
+    mostrarErro(erroEnvio, "Não foi possível enviar. Verifique sua conexão e tente novamente.");
+  } finally {
+    botaoEnviar.disabled = false;
+    botaoEnviar.textContent = "Enviar";
+  }
 }
 
 // Ao abrir a página, se o check-in de hoje já foi feito, não mostra o formulário

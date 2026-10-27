@@ -73,7 +73,7 @@ As etapas concluídas estão marcadas com ✅.
    *Você aprende:* eventos de clique e validação de entrada.
 3. ✅ **Salvar no `localStorage` e botão de ajuda.** Guardar o check-in no navegador, impedir dois check-ins no mesmo dia e criar a tela "Preciso de ajuda".
    *Você aprende:* guardar e ler dados com JavaScript.
-4. **Servidor e banco de dados.** Criar o servidor Node.js com SQLite. A tela de check-in passa a enviar os dados para o servidor, que **valida tudo de novo** (regras 1 e 2 do `SEGURANCA.md`).
+4. ✅ **Servidor e banco de dados.** Criar o servidor Node.js com SQLite. A tela de check-in passa a enviar os dados para o servidor, que **valida tudo de novo** (regras 1 e 2 do `SEGURANCA.md`).
    *Você aprende:* como o navegador conversa com o servidor (requisições HTTP).
 5. **Login.** Cadastro de usuários com senha protegida por hash, login e separação entre funcionário e gestor.
    *Você aprende:* autenticação e sessões.
