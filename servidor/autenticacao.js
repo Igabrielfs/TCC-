@@ -86,7 +86,7 @@ function carregarUsuario(banco) {
       req.usuario =
         banco
           .prepare(
-            `SELECT u.id, u.nome, u.tipo, u.equipe_id
+            `SELECT u.id, u.nome, u.tipo, u.equipe_id, u.aviso_visto_em
                FROM sessoes s JOIN usuarios u ON u.id = s.usuario_id
               WHERE s.token_hash = ? AND s.expira_em > ?`
           )

@@ -102,11 +102,23 @@ function criarApp({ banco, producao = false }) {
     if (!req.usuario) {
       return res.status(401).json({ erro: "Faça login para continuar." });
     }
-    res.json({ nome: req.usuario.nome, tipo: req.usuario.tipo });
+    res.json({
+      nome: req.usuario.nome,
+      tipo: req.usuario.tipo,
+      avisoPrivacidadeVisto: Boolean(req.usuario.aviso_visto_em),
+    });
   });
 
   // ----- Check-in -----
   const funcionario = autenticacao.exigirTipo("funcionario");
+
+  // Registra que o funcionário leu o aviso de privacidade (mostrado no primeiro uso)
+  app.post("/api/aviso-privacidade", funcionario, function (req, res) {
+    banco
+      .prepare("UPDATE usuarios SET aviso_visto_em = ? WHERE id = ? AND aviso_visto_em IS NULL")
+      .run(new Date().toISOString(), req.usuario.id);
+    res.json({ mensagem: "Obrigado!" });
+  });
 
   // Diz se o funcionário logado já fez o check-in hoje
   app.get("/api/checkins/hoje", funcionario, function (req, res) {

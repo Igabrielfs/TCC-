@@ -531,6 +531,45 @@ h2:focus {
   text-align: left;
 }
 
+/* ===== Aviso de privacidade ===== */
+.aviso-privacidade ul,
+.texto-longo ul {
+  margin: 0 0 24px;
+  padding-left: 20px;
+  text-align: left;
+}
+
+.aviso-privacidade li,
+.texto-longo li {
+  margin-bottom: 12px;
+}
+
+.aviso-privacidade h1:focus {
+  outline: none;
+}
+
+/* Página com bastante texto (aviso completo): alinhado à esquerda para ler melhor */
+.texto-longo {
+  text-align: left;
+}
+
+.texto-longo h1,
+.texto-longo .subtitulo,
+.texto-longo .agradecimento-icone {
+  text-align: center;
+}
+
+.texto-longo h2 {
+  margin-top: 28px;
+  font-size: 1.15rem;
+}
+
+/* Link no rodapé das telas: "Como cuidamos dos seus dados" */
+.rodape {
+  margin: 20px 0 0;
+  font-size: 0.9rem;
+}
+
 /* Texto que só leitores de tela (usados por pessoas cegas) leem */
 .so-leitor-de-tela {
   position: absolute;
