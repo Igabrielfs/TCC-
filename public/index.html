@@ -16,9 +16,10 @@
     <h1>Como você está hoje?</h1>
     <p class="subtitulo">Sua resposta é anônima.</p>
 
-    <form id="form-checkin">
+    <!-- "novalidate": quem valida é o nosso JavaScript, com mensagens em português -->
+    <form id="form-checkin" novalidate>
       <!-- Grupo de opções de humor: só é possível escolher uma -->
-      <fieldset class="emojis">
+      <fieldset class="emojis" aria-describedby="erro-humor">
         <legend class="so-leitor-de-tela">Escolha um emoji</legend>
 
         <label class="emoji">
@@ -52,15 +53,30 @@
         </label>
       </fieldset>
 
+      <!-- Aviso de erro, escondido até a pessoa tentar enviar sem escolher um emoji.
+           role="alert" faz o leitor de tela ler o aviso assim que ele aparece. -->
+      <p id="erro-humor" class="mensagem-erro" role="alert" hidden></p>
+
       <!-- Comentário opcional, com no máximo 280 caracteres -->
       <label for="comentario" class="rotulo">
         Escreva como se sente <span class="opcional">(opcional)</span>
       </label>
       <textarea id="comentario" name="comentario" rows="3" maxlength="280"
-                placeholder="Escreva aqui, se quiser"></textarea>
+                placeholder="Escreva aqui, se quiser"
+                aria-describedby="contador"></textarea>
+      <p id="contador" class="contador">0 de 280 caracteres</p>
 
       <button type="submit" class="botao">Enviar</button>
     </form>
+
+    <!-- Mensagem de agradecimento, mostrada no lugar do formulário depois do envio -->
+    <section id="agradecimento" class="agradecimento" hidden>
+      <p class="agradecimento-icone" aria-hidden="true">💚</p>
+      <h2 tabindex="-1">Obrigado por compartilhar!</h2>
+      <p class="subtitulo">Cuide-se. Até amanhã!</p>
+    </section>
   </main>
+
+  <script src="js/checkin.js"></script>
 </body>
 </html>
