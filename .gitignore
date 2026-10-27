@@ -28,3 +28,10 @@ desktop.ini
 
 # Configurações locais do Claude Code
 .claude/settings.local.json
+
+# Banco de dados local (contém dados pessoais: NUNCA versionar)
+servidor/dados/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
