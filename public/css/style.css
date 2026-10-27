@@ -10,6 +10,9 @@
   --cor-principal-escura: #2f6240;
   --cor-destaque: #e4f1e1;
   --cor-borda: #d3e3cf;
+  /* Avisos: um terracota suave, que chama atenção sem assustar */
+  --cor-alerta: #9a4a2c;
+  --cor-alerta-fundo: #fbefe8;
 
   /* Cantos arredondados */
   --raio-grande: 28px;
@@ -25,6 +28,11 @@
 /* Faz largura e altura incluírem a borda e o espaçamento interno */
 * {
   box-sizing: border-box;
+}
+
+/* Garante que elementos com o atributo "hidden" fiquem mesmo escondidos */
+[hidden] {
+  display: none !important;
 }
 
 body {
@@ -124,17 +132,17 @@ h1 {
   }
 }
 
-/* Emoji escolhido fica destacado e um pouco maior */
-.emoji:has(input:checked) {
+/* Emoji escolhido (a classe "selecionado" é colocada pelo JavaScript) */
+.emoji.selecionado {
   background: var(--cor-destaque);
   border-color: var(--cor-principal);
 }
 
-.emoji:has(input:checked) .emoji-icone {
+.emoji.selecionado .emoji-icone {
   transform: scale(1.15);
 }
 
-.emoji:has(input:checked) .emoji-texto {
+.emoji.selecionado .emoji-texto {
   color: var(--cor-principal-escura);
 }
 
@@ -177,6 +185,51 @@ textarea:focus {
   outline: none;
   border-color: var(--cor-principal);
   background: var(--cor-cartao);
+}
+
+/* Contador "X de 280 caracteres" abaixo do comentário */
+.contador {
+  margin: 8px 4px 0;
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--cor-texto-suave);
+}
+
+.contador.perto-do-limite {
+  color: var(--cor-alerta);
+  font-weight: 700;
+}
+
+/* ===== Mensagem de erro ===== */
+.mensagem-erro {
+  margin: -24px 0 32px;
+  padding: 12px 16px;
+  border-radius: var(--raio-medio);
+  background: var(--cor-alerta-fundo);
+  color: var(--cor-alerta);
+  font-weight: 600;
+}
+
+/* ===== Mensagem de agradecimento ===== */
+.agradecimento-icone {
+  margin: 0 0 16px;
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+h2 {
+  margin: 0 0 12px;
+  font-size: 1.5rem;
+  font-weight: 800;
+}
+
+/* O título recebe foco pelo JavaScript, mas não precisa de contorno */
+h2:focus {
+  outline: none;
+}
+
+.agradecimento .subtitulo {
+  margin-bottom: 0;
 }
 
 /* ===== Botão Enviar ===== */
