@@ -5,12 +5,16 @@
   <!-- Faz a página se ajustar à largura de celulares -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Check-in de humor</title>
+  <!-- Fonte Nunito (Google Fonts): moderna, arredondada e fácil de ler -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <main class="cartao">
     <h1>Como você está hoje?</h1>
-    <p class="subtitulo">Sua resposta é anônima para o seu gestor.</p>
+    <p class="subtitulo">Sua resposta é anônima.</p>
 
     <form id="form-checkin">
       <!-- Grupo de opções de humor: só é possível escolher uma -->
@@ -50,7 +54,7 @@
 
       <!-- Comentário opcional, com no máximo 280 caracteres -->
       <label for="comentario" class="rotulo">
-        Quer comentar algo? <span class="opcional">(opcional)</span>
+        Escreva como se sente <span class="opcional">(opcional)</span>
       </label>
       <textarea id="comentario" name="comentario" rows="3" maxlength="280"
                 placeholder="Escreva aqui, se quiser"></textarea>
