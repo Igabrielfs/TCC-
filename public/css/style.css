@@ -40,6 +40,10 @@
   --cor-principal-escura: #2f6240;
   --cor-destaque: #e4f1e1;
   --cor-borda: #d3e3cf;
+  /* Borda dos campos de texto e texto de exemplo: escuros o bastante para
+     serem vistos por quem enxerga pouco (contraste mínimo da WCAG) */
+  --cor-borda-campo: #7a9180;
+  --cor-placeholder: #66776a;
   /* Avisos: um terracota suave, que chama atenção sem assustar */
   --cor-alerta: #9a4a2c;
   --cor-alerta-fundo: #fbefe8;
@@ -205,7 +209,7 @@ h1 {
 textarea {
   width: 100%;
   padding: 16px;
-  border: 2px solid var(--cor-borda);
+  border: 2px solid var(--cor-borda-campo);
   border-radius: var(--raio-medio);
   background: #fbfdfa;
   color: var(--cor-texto);
@@ -215,7 +219,7 @@ textarea {
 }
 
 textarea::placeholder {
-  color: #8a998d;
+  color: var(--cor-placeholder);
 }
 
 textarea:focus {
@@ -397,7 +401,7 @@ h2:focus {
 .campo {
   width: 100%;
   padding: 14px 16px;
-  border: 2px solid var(--cor-borda);
+  border: 2px solid var(--cor-borda-campo);
   border-radius: var(--raio-medio);
   background: #fbfdfa;
   color: var(--cor-texto);
@@ -632,5 +636,43 @@ h2:focus {
 
   .emoji-texto {
     font-size: 0.72rem;
+  }
+}
+
+/* ===== Celulares bem estreitos (ex.: 320px de largura) ===== */
+@media (max-width: 360px) {
+  body {
+    padding-right: 8px;
+    padding-left: 8px;
+  }
+
+  .cartao {
+    padding: 28px 12px;
+  }
+
+  .botao-ajuda {
+    top: 12px;
+    right: 8px;
+    padding: 8px 14px;
+    font-size: 0.95rem;
+  }
+
+  .emojis {
+    gap: 2px;
+  }
+
+  .emoji {
+    /* Deixa cada emoji encolher abaixo do tamanho do texto, para os 5 caberem */
+    min-width: 0;
+    padding: 8px 0;
+  }
+
+  .emoji-icone {
+    font-size: 2rem;
+  }
+
+  .emoji-texto {
+    font-size: 0.68rem;
+    overflow-wrap: anywhere;
   }
 }
