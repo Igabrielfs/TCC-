@@ -35,6 +35,11 @@
   display: none !important;
 }
 
+/* Cor de fundo de segurança, caso a página seja maior que a tela */
+html {
+  background: var(--cor-fundo-2);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -259,6 +264,94 @@ h2:focus {
   outline-offset: 3px;
 }
 
+/* ===== Botão "Preciso de ajuda" (fica no canto de cima de todas as telas do funcionário) ===== */
+.botao-ajuda {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 2px solid var(--cor-principal);
+  border-radius: 999px;
+  background: var(--cor-cartao);
+  color: var(--cor-principal-escura);
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: var(--sombra);
+  transition: background 0.2s;
+}
+
+.botao-ajuda:hover {
+  background: var(--cor-destaque);
+}
+
+.botao-ajuda:focus-visible,
+.link:focus-visible {
+  outline: 3px solid var(--cor-principal);
+  outline-offset: 3px;
+}
+
+/* ===== Tela "Preciso de ajuda" ===== */
+.contatos {
+  margin: 0 0 32px;
+  padding: 0;
+  list-style: none;
+  text-align: left;
+}
+
+.contato {
+  margin-bottom: 16px;
+  padding: 20px 24px;
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-medio);
+}
+
+.contato-destaque {
+  border-color: var(--cor-principal);
+  background: var(--cor-destaque);
+}
+
+.contato h2 {
+  margin: 0 0 4px;
+  font-size: 1.1rem;
+}
+
+.contato p {
+  margin: 0;
+  color: var(--cor-texto-suave);
+}
+
+.contato .botao {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.contato .link {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.link {
+  color: var(--cor-principal-escura);
+  font-weight: 700;
+}
+
+.emergencia {
+  margin: 0 0 24px;
+  color: var(--cor-texto-suave);
+}
+
+.emergencia a {
+  color: var(--cor-principal-escura);
+  font-weight: 700;
+}
+
 /* Texto que só leitores de tela (usados por pessoas cegas) leem */
 .so-leitor-de-tela {
   position: absolute;
@@ -283,6 +376,15 @@ h2:focus {
 
 /* ===== Telas pequenas (celular) ===== */
 @media (max-width: 480px) {
+  /* Deixa espaço no topo para o botão de ajuda não cobrir o cartão */
+  body {
+    padding-top: 72px;
+  }
+
+  .contato {
+    padding: 16px;
+  }
+
   .cartao {
     padding: 36px 20px;
     border-radius: 24px;

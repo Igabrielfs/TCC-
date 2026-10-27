@@ -59,6 +59,52 @@ function mostrarAgradecimento() {
   agradecimento.querySelector("h2").focus();
 }
 
+// ===== Guardar no navegador (localStorage) =====
+
+const CHAVE_CHECKINS = "checkins";
+
+// Data de hoje no formato AAAA-MM-DD, usando o fuso horário do computador
+function dataDeHoje() {
+  const agora = new Date();
+  const mes = String(agora.getMonth() + 1).padStart(2, "0");
+  const dia = String(agora.getDate()).padStart(2, "0");
+  return agora.getFullYear() + "-" + mes + "-" + dia;
+}
+
+// Lê a lista de check-ins guardada. Se não houver nada (ou os dados estiverem
+// estragados, ou o navegador bloquear o localStorage), devolve uma lista vazia.
+function lerCheckins() {
+  try {
+    const lista = JSON.parse(localStorage.getItem(CHAVE_CHECKINS));
+    return Array.isArray(lista) ? lista : [];
+  } catch (erro) {
+    return [];
+  }
+}
+
+function guardarCheckin(checkin) {
+  const lista = lerCheckins();
+  lista.push(checkin);
+  try {
+    localStorage.setItem(CHAVE_CHECKINS, JSON.stringify(lista));
+  } catch (erro) {
+    console.error("Não foi possível guardar o check-in:", erro);
+  }
+}
+
+function jaFezCheckinHoje() {
+  const hoje = dataDeHoje();
+  return lerCheckins().some(function (checkin) {
+    return checkin.data === hoje;
+  });
+}
+
+// Mostra o aviso de que o check-in de hoje já foi feito, no lugar do formulário
+function mostrarJaFeito() {
+  formulario.hidden = true;
+  document.getElementById("ja-feito").hidden = false;
+}
+
 function enviarCheckin(evento) {
   // Impede o navegador de recarregar a página ao enviar o formulário
   evento.preventDefault();
@@ -70,11 +116,21 @@ function enviarCheckin(evento) {
     return;
   }
 
+  // Confere de novo: a pessoa pode ter feito o check-in em outra aba
+  if (jaFezCheckinHoje()) {
+    mostrarJaFeito();
+    return;
+  }
+
   const comentario = campoComentario.value.trim().slice(0, LIMITE_COMENTARIO);
 
-  // Por enquanto o check-in ainda não é guardado em lugar nenhum
-  console.log("Check-in:", { humor: humor, comentario: comentario });
+  guardarCheckin({ data: dataDeHoje(), humor: humor, comentario: comentario });
   mostrarAgradecimento();
+}
+
+// Ao abrir a página, se o check-in de hoje já foi feito, não mostra o formulário
+if (jaFezCheckinHoje()) {
+  mostrarJaFeito();
 }
 
 // Liga cada ação ao evento certo
