@@ -12,12 +12,60 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <main class="cartao">
+  <main class="cartao cartao-largo">
     <h1>Painel da equipe</h1>
-    <p class="subtitulo">Em construção: os indicadores chegam na próxima etapa.</p>
+    <p id="nome-equipe" class="subtitulo"></p>
+
+    <!-- Aviso de erro ao carregar os dados -->
+    <p id="erro-painel" class="mensagem-erro mensagem-erro-envio" role="alert" hidden></p>
+
+    <!-- Indicadores: média e participação da última semana e do último mês -->
+    <section class="indicadores" aria-label="Indicadores">
+      <article class="indicador">
+        <h2>Última semana</h2>
+        <p id="semana-periodo" class="indicador-periodo"></p>
+        <p id="semana-media" class="indicador-numero">–</p>
+        <p id="semana-participacao" class="indicador-detalhe"></p>
+      </article>
+      <article class="indicador">
+        <h2>Último mês</h2>
+        <p id="mes-periodo" class="indicador-periodo"></p>
+        <p id="mes-media" class="indicador-numero">–</p>
+        <p id="mes-participacao" class="indicador-detalhe"></p>
+      </article>
+    </section>
+
+    <!-- Gráfico da média por semana -->
+    <section class="grafico">
+      <h2>Média de humor por semana</h2>
+      <div class="grafico-area">
+        <canvas id="grafico" role="img"
+                aria-label="Gráfico de linha com a média de humor da equipe nas últimas 8 semanas. Os mesmos dados estão na tabela abaixo."></canvas>
+      </div>
+
+      <!-- Os mesmos dados em forma de tabela (acessível para leitores de tela) -->
+      <details class="tabela-dados">
+        <summary>Ver dados em tabela</summary>
+        <table>
+          <thead>
+            <tr><th scope="col">Semana</th><th scope="col">Média (1 a 5)</th><th scope="col">Participação</th></tr>
+          </thead>
+          <tbody id="tabela-corpo"></tbody>
+        </table>
+      </details>
+    </section>
+
+    <p class="nota-privacidade">
+      🔒 Para proteger o anonimato, uma média só aparece quando pelo menos
+      <strong id="minimo-pessoas">5</strong> pessoas responderam no período.
+      Só mostramos períodos já encerrados, e comentários e respostas individuais nunca aparecem aqui.
+    </p>
+
     <button type="button" id="sair" class="link link-sair">Sair</button>
   </main>
 
+  <script src="/vendor/chart.umd.min.js"></script>
+  <script src="js/painel.js"></script>
   <script src="js/sair.js"></script>
 </body>
 </html>
