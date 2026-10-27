@@ -12,6 +12,11 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+  <!-- Botão de ajuda: fica visível em todas as telas do funcionário -->
+  <a href="ajuda.html" class="botao-ajuda">
+    <span aria-hidden="true">🤝</span> Preciso de ajuda
+  </a>
+
   <main class="cartao">
     <h1>Como você está hoje?</h1>
     <p class="subtitulo">Sua resposta é anônima.</p>
@@ -74,6 +79,13 @@
       <p class="agradecimento-icone" aria-hidden="true">💚</p>
       <h2 tabindex="-1">Obrigado por compartilhar!</h2>
       <p class="subtitulo">Cuide-se. Até amanhã!</p>
+    </section>
+
+    <!-- Aviso mostrado quando o check-in de hoje já foi feito -->
+    <section id="ja-feito" class="agradecimento" hidden>
+      <p class="agradecimento-icone" aria-hidden="true">🌱</p>
+      <h2>Você já fez o check-in hoje</h2>
+      <p class="subtitulo">Obrigado! Volte amanhã para contar como está.</p>
     </section>
   </main>
 

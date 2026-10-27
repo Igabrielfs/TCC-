@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <!-- Faz a página se ajustar à largura de celulares -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Preciso de ajuda</title>
+  <!-- Fonte Nunito (Google Fonts): moderna, arredondada e fácil de ler -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Botão de ajuda: fica visível em todas as telas do funcionário -->
+  <a href="ajuda.html" class="botao-ajuda" aria-current="page">
+    <span aria-hidden="true">🤝</span> Preciso de ajuda
+  </a>
+
+  <main class="cartao">
+    <p class="agradecimento-icone" aria-hidden="true">💚</p>
+    <h1>Você não está só</h1>
+    <p class="subtitulo">Conversar com alguém pode ajudar. Escolha um dos contatos abaixo.</p>
+
+    <!-- Lista de contatos de apoio -->
+    <ul class="contatos">
+      <li class="contato contato-destaque">
+        <h2>CVV – Centro de Valorização da Vida</h2>
+        <p>Apoio emocional gratuito e sigiloso, 24 horas por dia.</p>
+        <a class="botao" href="tel:188">Ligar para 188</a>
+        <a class="link" href="https://cvv.org.br" target="_blank" rel="noopener noreferrer">
+          Ou converse por chat no site do CVV
+        </a>
+      </li>
+
+      <!-- TODO: preencher com os contatos reais, definidos com o Sicredi (veja "Dúvidas em aberto" no PLANO.md) -->
+      <li class="contato">
+        <h2>Apoio psicológico da empresa</h2>
+        <p>Contato a definir com o Sicredi.</p>
+      </li>
+
+      <li class="contato">
+        <h2>Recursos Humanos (RH)</h2>
+        <p>Contato a definir com o Sicredi.</p>
+      </li>
+    </ul>
+
+    <p class="emergencia">
+      Em uma emergência, ligue para o <a href="tel:192">SAMU (192)</a>.
+    </p>
+
+    <a class="link" href="index.html">← Voltar ao check-in</a>
+  </main>
+</body>
+</html>
