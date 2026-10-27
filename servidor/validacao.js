@@ -46,4 +46,62 @@ function validarCheckin(corpo) {
   };
 }
 
-module.exports = { validarCheckin, camposPermitidos, LIMITE_COMENTARIO };
+// E-mail: formato simples "algo@algo.algo", sem espaços, até 254 caracteres
+const FORMATO_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function validarEmail(email) {
+  if (typeof email !== "string") {
+    return null;
+  }
+  const limpo = email.trim().toLowerCase();
+  if (limpo.length === 0 || limpo.length > 254 || !FORMATO_EMAIL.test(limpo)) {
+    return null;
+  }
+  return limpo;
+}
+
+function validarLogin(corpo) {
+  if (!camposPermitidos(corpo, ["email", "senha"])) {
+    return { ok: false };
+  }
+  const email = validarEmail(corpo.email);
+  const senha = corpo.senha;
+  // O bcrypt só usa os primeiros 72 bytes da senha; acima disso, recusamos
+  if (email === null || typeof senha !== "string" || senha.length === 0 || Buffer.byteLength(senha) > 72) {
+    return { ok: false };
+  }
+  return { ok: true, valor: { email: email, senha: senha } };
+}
+
+const TIPOS_DE_USUARIO = ["funcionario", "gestor"];
+
+function validarNovoUsuario(dados) {
+  const nome = typeof dados.nome === "string" ? dados.nome.trim() : "";
+  if (nome.length === 0 || nome.length > 100) {
+    return { ok: false, erro: "O nome é obrigatório e pode ter no máximo 100 caracteres." };
+  }
+  const email = validarEmail(dados.email);
+  if (email === null) {
+    return { ok: false, erro: "E-mail inválido." };
+  }
+  if (!TIPOS_DE_USUARIO.includes(dados.tipo)) {
+    return { ok: false, erro: 'O tipo deve ser "funcionario" ou "gestor".' };
+  }
+  const equipe = typeof dados.equipe === "string" ? dados.equipe.trim() : "";
+  if (equipe.length === 0 || equipe.length > 100) {
+    return { ok: false, erro: "A equipe é obrigatória e pode ter no máximo 100 caracteres." };
+  }
+  const senha = dados.senha;
+  if (typeof senha !== "string" || senha.length < 8 || Buffer.byteLength(senha) > 72) {
+    return { ok: false, erro: "A senha deve ter pelo menos 8 caracteres (e no máximo 72 bytes)." };
+  }
+  return { ok: true, valor: { nome: nome, email: email, tipo: dados.tipo, equipe: equipe, senha: senha } };
+}
+
+module.exports = {
+  validarCheckin,
+  validarLogin,
+  validarNovoUsuario,
+  camposPermitidos,
+  LIMITE_COMENTARIO,
+};
