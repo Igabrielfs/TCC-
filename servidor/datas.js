@@ -20,4 +20,24 @@ function somarDias(dataTexto, dias) {
   return data.toISOString().slice(0, 10);
 }
 
-module.exports = { hoje, somarDias, formatarData };
+// Segunda-feira da semana de uma data AAAA-MM-DD
+function segundaDaSemana(dataTexto) {
+  const diaDaSemana = new Date(dataTexto + "T12:00:00Z").getUTCDay(); // 0 = domingo
+  const diasDesdeSegunda = (diaDaSemana + 6) % 7;
+  return somarDias(dataTexto, -diasDesdeSegunda);
+}
+
+// Última semana COMPLETA (segunda a domingo) antes da data informada
+function ultimaSemanaCompleta(dataTexto) {
+  const inicio = somarDias(segundaDaSemana(dataTexto), -7);
+  return { inicio: inicio, fim: somarDias(inicio, 6) };
+}
+
+// Último mês COMPLETO antes da data informada
+function ultimoMesCompleto(dataTexto) {
+  const primeiroDiaDoMesAtual = dataTexto.slice(0, 8) + "01";
+  const fim = somarDias(primeiroDiaDoMesAtual, -1);
+  return { inicio: fim.slice(0, 8) + "01", fim: fim };
+}
+
+module.exports = { hoje, somarDias, formatarData, segundaDaSemana, ultimaSemanaCompleta, ultimoMesCompleto };
