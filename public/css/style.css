@@ -215,6 +215,10 @@ textarea:focus {
   font-weight: 600;
 }
 
+.mensagem-erro-envio {
+  margin: 24px 0 0;
+}
+
 /* ===== Mensagem de agradecimento ===== */
 .agradecimento-icone {
   margin: 0 0 16px;
@@ -257,6 +261,13 @@ h2:focus {
 .botao:hover {
   background: var(--cor-principal-escura);
   transform: translateY(-2px);
+}
+
+/* Botão desligado enquanto o check-in é enviado */
+.botao:disabled {
+  opacity: 0.7;
+  cursor: wait;
+  transform: none;
 }
 
 .botao:focus-visible {
